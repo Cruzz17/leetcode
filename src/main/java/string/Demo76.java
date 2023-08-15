@@ -90,43 +90,41 @@ public class Demo76 {
     }
 
     public String minWindow2(String s, String t) {
-        Map<Character, Integer> needMap = new HashMap<>();
-        Map<Character, Integer> windows = new HashMap<>();
-        int l = 0;
-        int r = 0;
-        int valid = 0;
+        Map<Character, Integer> need = new HashMap<>();
+        Map<Character, Integer> window = new HashMap<>();
+        int r = 0,l = 0;
         int start = 0;
         int len = Integer.MAX_VALUE;
-        for (char c : t.toCharArray()) {
-            needMap.put(c, needMap.getOrDefault(c, 0) + 1);
+        int valid = 0;
+        for(Character c : t.toCharArray()){
+            need.put(c, need.getOrDefault(c, 0) + 1);
         }
-        while (r < s.length()) {
-            char c = s.charAt(r);
+        while (r < s.length()){
+            Character c = s.charAt(r);
             r++;
-            if (needMap.containsKey(c)) {
-                windows.put(c, windows.getOrDefault(c, 0) + 1);
-                if (Objects.equals(windows.get(c), needMap.get(c))) {
+            if(need.containsKey(c)){
+                window.put(c, window.getOrDefault(c, 0) + 1);
+                if(Objects.equals(window.get(c), need.get(c))){
                     valid++;
                 }
             }
-            while (valid == needMap.size()) {
-                if (r - l < len) {
+            while (valid == need.size()){
+                if(len > r - l){
                     start = l;
                     len = r - l;
                 }
-                char c1 = s.charAt(l);
+                Character d = s.charAt(l);
                 l++;
-                if (needMap.containsKey(c1)) {
-                    if (Objects.equals(windows.get(c1), needMap.get(c1))) {
+                if(need.containsKey(d)){
+                    if(Objects.equals(window.get(d), need.get(d))){
                         valid--;
                     }
-                    windows.put(c1, windows.getOrDefault(c1, 0) - 1);
+                    window.put(d, window.getOrDefault(d, 0) - 1);
                 }
+
             }
         }
         return len == Integer.MAX_VALUE ? "" : s.substring(start, start + len);
-
-
     }
 
     public static void main(String[] args) {

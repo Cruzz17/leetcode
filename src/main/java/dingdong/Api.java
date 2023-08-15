@@ -1,3 +1,4 @@
+/*
 package dingdong;
 
 import cn.hutool.http.HttpRequest;
@@ -9,16 +10,20 @@ import com.google.common.collect.ImmutableMap;
 
 import java.util.*;
 
+*/
 /**
  * 接口封装
- */
+ *//*
+
 public class Api {
 
-    /**
+    */
+/**
      * 获取有效的默认收货地址id
      *
      * @return 收货地址id
-     */
+     *//*
+
     public static String getAddressId() {
         boolean noAddress = false;
         try {
@@ -60,11 +65,13 @@ public class Api {
     }
 
 
-    /**
+    */
+/**
      * 获取购物车信息
      *
      * @return 购物车信息
-     */
+     *//*
+
     public static Map<String, Object> getCart() {
         boolean noProducts = false;
         try {
@@ -140,13 +147,15 @@ public class Api {
     }
 
 
-    /**
+    */
+/**
      * 获取配送信息
      *
      * @param addressId 配送地址id
      * @param cartMap   购物车信息
      * @return 配送信息
-     */
+     *//*
+
     public static Map<String, Object> getMultiReserveTime(String addressId, Map<String, Object> cartMap) {
         boolean noReserveTime = false;
         try {
@@ -193,14 +202,16 @@ public class Api {
         return null;
     }
 
-    /**
+    */
+/**
      * 获取订单确认信息
      *
      * @param addressId           配送地址id
      * @param cartMap             购物车信息
      * @param multiReserveTimeMap 配送信息
      * @return 订单确认信息
-     */
+     *//*
+
     public static Map<String, Object> getCheckOrder(String addressId, Map<String, Object> cartMap, Map<String, Object> multiReserveTimeMap) {
         try {
             HttpRequest httpRequest = HttpUtil.createPost("https://maicai.api.ddxq.mobi/order/checkOrder");
@@ -283,14 +294,16 @@ public class Api {
         return null;
     }
 
-    /**
+    */
+/**
      * 提交订单
      *
      * @param addressId           配送地址id
      * @param cartMap             购物车信息
      * @param multiReserveTimeMap 配送信息
      * @param checkOrderMap       订单确认信息
-     */
+     *//*
+
     public static void addNewOrder(String addressId, Map<String, Object> cartMap, Map<String, Object> multiReserveTimeMap, Map<String, Object> checkOrderMap) {
         boolean submitSuccess = false;
         String totalMoney = cartMap.get("total_money") != null ? (String) cartMap.get("total_money") : "";
@@ -382,3 +395,4 @@ public class Api {
     }
 
 }
+*/
