@@ -1,8 +1,6 @@
 package top20;
 
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -38,32 +36,93 @@ import java.util.Map;
  */
 
 public class LRUCache {
-    public Map<Integer, Integer> cap = new LinkedHashMap<>();
+    class DListNode {
+        Integer val;
+
+        Integer key;
+        DListNode pre;
+
+        DListNode() {
+        }
+
+
+        DListNode(int _key, int _value) {
+            key = _key;
+            val = _value;
+        }
+
+        ;
+        DListNode next;
+
+        Map<Integer, Integer> capMap;
+
+        Integer capacity;
+    }
+
+    // 手写linkedHashMap
+    public Map<Integer, DListNode> frequency = new HashMap<>();
+
+
     public int size;
     // 各个key的查询频率，如果删除频率较低的值
 
+    public DListNode pre;
+
+    public DListNode tail;
+
     public LRUCache(int capacity) {
         this.size = capacity;
+        pre = new DListNode();
+        tail = new DListNode();
+        pre.next = tail;
     }
 
     public int get(int key) {
-        if(cap.containsKey(key)){
-            int temp = cap.get(key);
-            cap.remove(key);
-            cap.put(key, temp);
-            return temp;
+        if(frequency.containsKey(key)){
+            DListNode node = frequency.get(key);
+            moveToHead(node);
+            return node.val;
         }
         return -1;
     }
 
     public void put(int key, int value) {
-        if(cap.containsKey(key)){
-            cap.remove(key);
-        }else if (cap.size() == size){
-            Iterator<Map.Entry<Integer, Integer>> iterator = cap.entrySet().iterator();
-            iterator.next();
-            iterator.remove();
+        if(frequency.containsKey(key)){
+            DListNode node = frequency.get(key);
+            node.val = value;
+            moveToHead(node);
+        }else {
+            DListNode node = new DListNode(key, value);
+            frequency.put(key, node);
+            addNode(node);
+            if(frequency.size() > size){
+                DListNode last = removeLast();
+                frequency.remove(last.key);
+            }
         }
-        cap.put(key, value);
     }
+
+    public void removeNode(DListNode node) {
+        node.pre.next = node.next;
+        node.next.pre = node.pre;
+    }
+
+    public void addNode(DListNode node) {
+        node.next = pre.next;
+        node.pre = pre;
+        pre.next.pre = node;
+        pre.next = node;
+    }
+
+    public void moveToHead(DListNode node) {
+        removeNode(node);
+        addNode(node);
+    }
+
+    public DListNode removeLast() {
+        DListNode  node = tail.pre;
+        removeNode(node);
+        return node;
+    }
+
 }
