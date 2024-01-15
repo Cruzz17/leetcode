@@ -20,15 +20,7 @@ public class Demo148 {
      */
     public ListNode sortList1(ListNode head) {
         // 头插法
-        ListNode res = new ListNode(0);
-        ListNode index = head;
-        while (index != null) {
-            ListNode temp = index.next;
-            index.next = null;
-            res = insertListNode(res, index);
-            index = temp;
-        }
-        return res.next;
+        return null;
     }
 
     public ListNode sortList(ListNode head) {

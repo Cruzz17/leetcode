@@ -26,26 +26,20 @@ import java.util.Objects;
  */
 public class Demo3 {
     public int lengthOfLongestSubstring(String s) {
-
-        Map<Character, Integer> res = new HashMap<>();
-
-        int r = 0;
-        int l = 0;
         int len = 0;
-        while (r < s.length()){
+        Map<Character, Integer> cap = new HashMap<>();
+        int l = 0, r = 1;
+        if(s.length() == 1) return 1;
+        while (r < s.length()) {
             Character c = s.charAt(r);
-            // 如果map中没有则直接加入比较大小
-            if(!res.containsKey(c)){
-                res.put(c, 1);
-                len = Math.max(len, res.size());
+            if (!cap.containsKey(c)) {
+                cap.put(c, 1);
+                len = Math.max(len, r - l);
+                l = Math.max(l, cap.get(c) + 1);
             }else {
-                // 如果有 则从左边开始删除 直到删除到重复的字符
-                while (res.containsKey(c)){
-                    res.remove(s.charAt(l++));
-                }
-                res.put(c, 1);
+
             }
-            r++;
+
         }
         return len;
     }
@@ -53,7 +47,7 @@ public class Demo3 {
     public static void main(String[] args) {
 
         Demo3 demo3 = new Demo3();
-        String s1 = "ohvhjdml";
+        String s1 = "bbbb";
         String s2 = "aabaab!bb";
         String s3 = "pwwkew";
 
