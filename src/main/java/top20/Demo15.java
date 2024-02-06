@@ -21,31 +21,34 @@ public class Demo15 {
 
 
     public List<List<Integer>> threeSum(int[] nums) {
-        List<List<Integer>> res = new ArrayList<>();
-        if (nums.length < 3) {
-            return res;
-        }
-        int len = nums.length;
         Arrays.sort(nums);
-        for (int i = 0; i < len; i++) {
-            if(nums[i] > 0) break;
-            if(i > 0 && nums[i] == nums[i-1]) continue;
-            int l = i + 1;
-            int r = len - 1;
-            while (l < r){
-                int temp = nums[i] + nums[l] + nums[r];
-                if(temp == 0){
-                    res.add(Arrays.asList(nums[i], nums[l], nums[r]));
-                    while (l < r && nums[l+1] == nums[l]) l++;
-                    while (l < r && nums[ r-1]== nums[r]) r--;
-                    l++;
-                    r--;
-                }else if(temp > 0){
-                    r--;
-                }else{
-                    l++;
-                }
+        List<List<Integer>> res = new ArrayList<>();
+        int i = 0;
+        while ( i < nums.length) {
+            if(i >0 && nums[i] == nums[i - 1]) {
+                i++;
+                continue;
             }
+
+            if(nums[i] > 0) {
+                return res;
+            }
+            int j = i + 1;
+            int k = nums.length - 1;
+            while (j < k) {
+                int target = nums[i] + nums[j] + nums[k];
+                if(target == 0) {
+                    res.add(Arrays.asList(nums[i],nums[j],nums[k]));
+                    while( j < k && nums[j] == nums[j+ 1]) j++;
+                    while(j <k && nums[k] == nums[k - 1]) k--;
+                    j++;
+                    k--;
+                }
+                else if(target < 0) j++;
+                else k--;
+            }
+            i++;
+
         }
         return res;
     }
@@ -53,7 +56,7 @@ public class Demo15 {
 
     public static void main(String[] args) {
         Demo15 demo15 = new Demo15();
-        int[] nums = new int[]{-4,-1,0,1,2};
+        int[] nums = new int[]{-1,0,1,2,-1,-4};
         List<List<Integer>> res = demo15.threeSum(nums);
         System.out.println(res);
 

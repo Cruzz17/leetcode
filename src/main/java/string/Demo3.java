@@ -28,18 +28,26 @@ public class Demo3 {
     public int lengthOfLongestSubstring(String s) {
         int len = 0;
         Map<Character, Integer> cap = new HashMap<>();
-        int l = 0, r = 1;
+        int l = 0, r = 0;
         if(s.length() == 1) return 1;
         while (r < s.length()) {
             Character c = s.charAt(r);
-            if (!cap.containsKey(c)) {
-                cap.put(c, 1);
-                len = Math.max(len, r - l);
-                l = Math.max(l, cap.get(c) + 1);
+            int count = cap.getOrDefault(c, 0);
+            if (count == 0) {
+                int num = cap.getOrDefault(c, 0);
+                cap.put(c, num + 1);
+                len = Math.max( len, r-l + 1);
             }else {
-
+                // 找到第一个和这个值相等的char
+                while (!Objects.equals(s.charAt(l), c)){
+                    Character del = s.charAt(l);
+                    int num = cap.getOrDefault(del, 0);
+                    cap.put(del, num - 1);
+                    l++;
+                }
+                l++;
             }
-
+            r++;
         }
         return len;
     }
@@ -47,12 +55,10 @@ public class Demo3 {
     public static void main(String[] args) {
 
         Demo3 demo3 = new Demo3();
-        String s1 = "bbbb";
-        String s2 = "aabaab!bb";
-        String s3 = "pwwkew";
 
-        System.out.println(demo3.lengthOfLongestSubstring(s1));
-        System.out.println(demo3.lengthOfLongestSubstring(s2));
+        String s3 = "tmmzuxt";
+
+
         System.out.println(demo3.lengthOfLongestSubstring(s3));
     }
 }

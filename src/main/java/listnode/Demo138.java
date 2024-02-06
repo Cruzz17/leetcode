@@ -25,22 +25,17 @@ public class Demo138 {
     public Node copyRandomList(Node head) {
         if(head == null) return null;
         Map<Node, Node> map = new HashMap<>();
-        Node index = head;
-        while (index != null){
-            Node newNode = new Node(index.val);
-            map.put(index, newNode);
-            index = index.next;
+        Node cur = head;
+        while(cur != null) {
+            map.put(cur, new Node(cur.val));
+            cur = cur.next;
         }
-        index = head;
-        while (index != null) {
-            Node newNode = map.get(index);
-            if(index.next != null){
-                newNode.next = map.get(index.next);
-            }
-            if(index.random != null) {
-                newNode.random = map.get(index.random);
-            }
-            index = index.next;
+        cur = head;
+        while(cur != null) {
+            Node temp = map.get(cur);
+            temp.next = map.get(cur.next);
+            temp.random = map.get(cur.random);
+            cur = cur.next;
         }
         return map.get(head);
     }
