@@ -7,26 +7,21 @@ package erfen;
  */
 public class Demo69 {
     public int mySqrt(int x) {
-        int left = 0;
-        int right = x;
-        int res = 0;
-        while (left <= right) {
-            int mid = left + (right - left) / 2;
-            long tar = (long) mid * mid;
-            if (tar == x) {
+        int l = 0;
+        int r = x;
+        while( l <= r) {
+            int mid = l + ( r - l) / 2;
+            long temp = (long)mid * mid;
+            if((temp) == x) {
                 return mid;
-            } else if (tar < x) {
-                left = mid + 1;
-            } else {
-                right = mid - 1;
+            }else if( temp > x) {
+                r = mid - 1;
+            }else {
+                l = mid + 1;
             }
-            res = left;
         }
-        while (res * res > x){
-            res--;
 
-        }
-        return res;
+        return l - 1;
     }
 
     public static void main(String[] args) {

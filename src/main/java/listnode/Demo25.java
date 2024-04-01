@@ -14,33 +14,34 @@ import top20.ListNode;
 public class Demo25 {
 
     public ListNode reverseKGroup(ListNode head, int k) {
+        ListNode countNode = head;
         ListNode res = new ListNode(0);
         ListNode resTemp = res;
-        ListNode index = head;
-        ListNode count = head;
-        int countNum = 0;
-        while (count != null) {
-            count = count.next;
-            countNum++;
+        int count = 0;
+        while (countNode != null) {
+            count++;
+            countNode = countNode.next;
         }
-        int groupNum = countNum / k;
-        for (int i = 0; i < groupNum; i++) {
+        int n = count / k;
+        ListNode index = head;
+        for (int i = 0; i < n; i++) {
+            ListNode tempHead = index;
             ListNode temp = index;
-            ListNode  point = new ListNode(0);
-            point.next = index;
-            for (int j = 0; j < k; j++) {
+            for (int j = 0; j < k - 1; j++) {
+                temp = temp.next;
                 index = index.next;
-                point = point.next;
             }
-            point.next = null;
-            resTemp.next = reverseListNode(temp);
-            while (resTemp.next != null){
+            index = index.next;
+            temp.next = null;
+
+            resTemp.next = reverseListNode(tempHead);
+            for (int j = 0; j < k; j++) {
                 resTemp = resTemp.next;
             }
-
         }
         resTemp.next = index;
         return res.next;
+
     }
 
     public ListNode reverseListNode(ListNode head) {

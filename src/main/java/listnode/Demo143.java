@@ -16,28 +16,18 @@ import java.util.Stack;
 public class Demo143 {
     // 用一个栈存储
     public void reorderList(ListNode head) {
-        ListNode fast = head;
+        ListNode temp = head;
+        ListNode first = head;
         ListNode slow = head;
-        // 快慢指针找到中间节点
-        ListNode mid = new ListNode(0);
-        mid.next = head;
-        ListNode index = mid;
-        while (fast.next != null){
-            fast = fast.next;
-            if(fast.next != null){
-                fast = fast.next;
-            }
+        while (first != null && first.next != null) {
             slow = slow.next;
-            index = index.next;
+            temp = temp.next;
+            first = first.next.next;
         }
-        // 此时快指针到达尾部，慢指针到达中间
-        ListNode slowTemp = reverseListNode(slow);
-        index.next = null;
-        ListNode res = new ListNode(0);
-        res.next = mergeListNode(mid.next, slowTemp);
-        head = res.next;
+        ListNode reverse = reverseListNode(slow.next);
+        temp.next = null;
+        head = mergeListNode(head, reverse);
     }
-
     // 反转链表， 递归法
     public ListNode reverseListNode(ListNode head) {
         if (null == head || head.next == null ) {
@@ -71,14 +61,18 @@ public class Demo143 {
         ListNode l2 = new ListNode(2);
         ListNode l3 = new ListNode(3);
         ListNode l4 = new ListNode(4);
-        ListNode l5 = new ListNode(5);
+
         l1.next = l2;
         l2.next = l3;
         l3.next = l4;
-        l4.next = l5;
+
 
         //demo143.pushNode2Stack(l1, new Stack<>());
         demo143.reorderList(l1);
+        while (l1 != null) {
+            System.out.println(l1.val);
+            l1 = l1.next;
+        }
     }
 
 }

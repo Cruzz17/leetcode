@@ -28,26 +28,13 @@ public class Demo3 {
     public int lengthOfLongestSubstring(String s) {
         int len = 0;
         Map<Character, Integer> cap = new HashMap<>();
-        int l = 0, r = 0;
-        if(s.length() == 1) return 1;
-        while (r < s.length()) {
-            Character c = s.charAt(r);
-            int count = cap.getOrDefault(c, 0);
-            if (count == 0) {
-                int num = cap.getOrDefault(c, 0);
-                cap.put(c, num + 1);
-                len = Math.max( len, r-l + 1);
-            }else {
-                // 找到第一个和这个值相等的char
-                while (!Objects.equals(s.charAt(l), c)){
-                    Character del = s.charAt(l);
-                    int num = cap.getOrDefault(del, 0);
-                    cap.put(del, num - 1);
-                    l++;
-                }
-                l++;
+        int left = 0;
+        for (int i = 0; i < s.length(); i++) {
+            if(cap.containsKey(s.charAt(i))) {
+                left = Math.max(left, cap.get(s.charAt(i)) + 1);
             }
-            r++;
+            cap.put(s.charAt(i), i);
+            len = Math.max(len, i - left + 1);
         }
         return len;
     }
