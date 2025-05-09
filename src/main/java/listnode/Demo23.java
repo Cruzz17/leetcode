@@ -2,10 +2,7 @@ package listnode;
 
 import top20.ListNode;
 
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
-import java.util.PriorityQueue;
+import java.util.*;
 
 /**
  * &#064;Author: san.m
@@ -15,7 +12,7 @@ import java.util.PriorityQueue;
 public class Demo23 {
     // 分治法
     public ListNode mergeKLists2(ListNode[] lists) {
-        return merge(lists, 0, lists.length - 1);
+        return null;
     }
 
 
@@ -40,9 +37,13 @@ public class Demo23 {
         return res.next;
     }
 
+    public ListNode mergeKLists (ArrayList<ListNode> lists) {
+        return merge(lists, 0, lists.size() - 1);
+    }
 
-    public ListNode merge(ListNode[] lists, int l, int r) {
-        if (l == r) return lists[l];
+
+    public ListNode merge(ArrayList<ListNode> lists, int l, int r) {
+        if (l == r) return lists.get(l);
         if(l > r) return null;
         int mid = (r - l) / 2 + l;
         return merge2ListNode(merge(lists, l, mid), merge(lists, mid + 1, r));

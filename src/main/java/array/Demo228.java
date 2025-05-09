@@ -19,17 +19,23 @@ public class Demo228 {
      */
     public List<String> summaryRanges(int[] nums) {
         List<String> res = new ArrayList<>();
-        int i = 0;
-        for (int j = 0; j < nums.length; j++) {
-            if ( j + 1 == nums.length || nums[j] + 1 != nums[j + 1]) {
-                StringBuilder stringBuilder = new StringBuilder();
-                stringBuilder.append(nums[i]);
-                if(i != j) {
-                    stringBuilder.append("->").append(nums[j]);
-                }
-                res.add(stringBuilder.toString());
-                i = j + 1;
+        int l = 0;
+        if(nums.length == 0) return res;
+        while(l < nums.length){
+            StringBuilder sb = new StringBuilder();
+            int temp = nums[l];
+            sb.append(nums[l]);
+            while(l < nums.length - 1 && nums[l+1] == nums[l] + 1){
+                l++;
             }
+            if(nums[l] == temp){
+                res.add(sb.toString());
+            }else {
+                sb.append("-->");
+                sb.append(nums[l]);
+                res.add(sb.toString());
+            }
+            l++;
         }
         return res;
     }

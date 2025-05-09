@@ -1,5 +1,9 @@
 package array;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * Author: san.m
  * Date:  {DATE} {TIME}
@@ -32,9 +36,42 @@ public class Demo56 {
         return result;
     }
 
+    public int[][] merge2(int[][] intervals) {
+        List<Integer> res = new ArrayList<>();
+        Arrays.sort(intervals, (a, b) -> a[0] - b[0]);
+        int[] index = intervals[0];
+        int start = index[0];
+        int end = index[1];
+        for(int i = 1; i < intervals.length; i++) {
+            int[] temp = intervals[i];
+            int newStart=temp[0];
+            int newEnd = temp[1];
+            if(newStart > end) {
+                res.add(start);
+                res.add(end);
+                start = newStart;
+                end = newEnd;
+            }else {
+                start = Math.min(start, newStart);
+                end = newEnd;
+            }
+        }
+        res.add(start);
+        res.add(end);
+        int[][] cur = new int[res.size()/2][2];
+        int j = 0;
+        for(int i = 0;i < res.size() /2; i++) {
+            int[] temp = new int[2];
+            temp[0] = res.get(j++);
+            temp[1] = res.get(j++);
+            cur[i] = temp;
+        }
+        return cur;
+    }
+
     public static void main(String[] args) {
         Demo56 demo56 = new Demo56();
-        int[][] intervals = new int[][]{{1, 3}, {2, 6}, {8, 10}, {15, 18}};
-        demo56.merge(intervals);
+        int[][] intervals = new int[][]{{1, 4}, {0, 4}, {8, 10}, {15, 18}};
+        demo56.merge2(intervals);
     }
 }

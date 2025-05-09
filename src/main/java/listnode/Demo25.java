@@ -14,45 +14,44 @@ import top20.ListNode;
 public class Demo25 {
 
     public ListNode reverseKGroup(ListNode head, int k) {
-        ListNode countNode = head;
-        ListNode res = new ListNode(0);
-        ListNode resTemp = res;
-        int count = 0;
-        while (countNode != null) {
-            count++;
-            countNode = countNode.next;
+        ListNode count = head;
+        int cnt = 0;
+        if(k == 1) return head;
+        while (count != null) {
+            cnt++;
+            count = count.next;
         }
-        int n = count / k;
-        ListNode index = head;
-        for (int i = 0; i < n; i++) {
-            ListNode tempHead = index;
-            ListNode temp = index;
-            for (int j = 0; j < k - 1; j++) {
-                temp = temp.next;
+        ListNode start = new ListNode(0);
+        ListNode index = start;
+        ListNode cur = head;
+        ListNode next = cur;
+        for (int j = 0; j < cnt / k; j++) {
+            cur = next;
+            ListNode headTemp = cur;
+            for (int i = 0; i < k -1; i++) {
+                cur = cur.next;
+                next = cur.next;
+            }
+            cur.next = null;
+            ListNode temp = reverse(headTemp);
+            index.next = temp;
+            while (index.next != null) {
                 index = index.next;
             }
-            index = index.next;
-            temp.next = null;
-
-            resTemp.next = reverseListNode(tempHead);
-            for (int j = 0; j < k; j++) {
-                resTemp = resTemp.next;
-            }
         }
-        resTemp.next = index;
-        return res.next;
+        index.next = next;
+        return start.next;
 
     }
 
-    public ListNode reverseListNode(ListNode head) {
-        if (null == head || head.next == null) {
-            return head;
-        }
-        ListNode temp = reverseListNode(head.next);
+    public ListNode reverse(ListNode head) {
+        if (head == null || head.next == null) return head;
+        ListNode temp = reverse(head.next);
         head.next.next = head;
         head.next = null;
         return temp;
     }
+
 
     public static void main(String[] args) {
         Demo25 demo25 = new Demo25();
@@ -65,6 +64,6 @@ public class Demo25 {
         l2.next = l3;
         l3.next = l4;
         l4.next = l5;
-        demo25.reverseKGroup(l1, 2);
+        demo25.reverseKGroup(l1, 1);
     }
 }

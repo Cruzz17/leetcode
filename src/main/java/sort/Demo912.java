@@ -1,53 +1,72 @@
 package sort;
 
 import java.util.Arrays;
+import java.util.PriorityQueue;
 import java.util.Random;
 
 public class Demo912 {
     Random random = new Random();
     public int[] sortArray(int[] nums) {
         quickSort(nums, 0, nums.length - 1);
+        // 大根堆
+        PriorityQueue<Integer> queue = new PriorityQueue<>(3, (o1, o2) -> o2 - o1);
         return nums;
     }
 
-    public void quickSort(int[] nums, int left, int right){
-        // 递归终止条件
-        if(left >= right) return;
-        int pIndex = partition(nums, left, right);
-        quickSort(nums, left, pIndex - 1);
-        quickSort(nums, pIndex + 1, right);
-
-    }
-
-    public int partition(int[] nums, int left, int right){
-        int pivot = nums[left];
-        int lt = left;
-        // 从left + 1开始，因为left是基准值
-        // lt是小于基准值的最后一个元素的索引
-        // 当前元素小于基准值，lt++，如果当前元素大于基准值，不用管，lt不变
-        //lt 和i的元素交换的时候，lt的元素是小于基准值的，i的元素是大于基准值的
-        // 整个的动画是这样的，基准值是4，lt是0，i是1，i的元素是3，3小于4，lt++，
-        // lt的元素和i的元素交换，交换后的数组是3，4，2，5，1，9，0
-
-        for (int i = left + 1; i <= right; i++) {
-            if(nums[i] < pivot){
-                lt++;
-                if(lt != i){
-                    swap(nums, lt, i);
-                }
-
-            }
+    public static void quickSort(int[] arr, int low, int high) {
+        if (low < high) {
+            int pivotIndex = partition1(arr, low, high);
+            quickSort(arr, low, pivotIndex - 1);
+            quickSort(arr, pivotIndex + 1, high);
         }
-        swap(nums, left, lt);
-        return lt;
     }
 
+    private static int partition1(int[] arr, int low, int high) {
+        int pivot = arr[low];
+        int left = low + 1;
+        int right = high;
+        while (left <= right) {
+            while (left <= right && arr[left] <= pivot) {
+                System.out.println("增加左指针: " + left);
+                left++;
+            }
+            while (left <= right && arr[right] >= pivot) {
+                System.out.println("减少右指针: " + right);
+                right--;
+            }
+            if (left >= right) {
+                System.out.println("跳出循环，左指针: " + left + ", 右指针: " + right);
+                break;
+            }
+            System.out.println("交换索引 " + left + " 和 " + right + " 的元素");
+            swap(arr, left, right);
+            System.out.println("交换后的数组: " + Arrays.toString(arr));
+        }
+        System.out.println("交换基准元素和索引 " + right + " 的元素");
+        swap(arr, low, right);
+        System.out.println("最终交换后的数组: " + Arrays.toString(arr));
+        return right;
 
-    public void swap(int[] nums, int left, int right){
-        int temp = nums[left];
-        nums[left] = nums[right];
-        nums[right] = temp;
-        System.out.println(Arrays.toString(nums));
+    }
+
+    private static int partition(int[] arr, int low, int high) {
+        int pivot = arr[low];
+        int left = low + 1;
+        int right = high;
+        while (true) {
+            while (left <= right && arr[left] <= pivot) left++;
+            while (left <= right && arr[right] >= pivot) right--;
+            if (left >= right) break;
+            swap(arr, left, right);
+        }
+        swap(arr, low, right);
+        return right;
+    }
+
+    private static void swap(int[] arr, int i, int j) {
+        int temp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = temp;
     }
 
 
@@ -78,10 +97,10 @@ public class Demo912 {
     }
 
     public static void main(String[] args) {
-        int[] ints = new int[]{4, 3, 2, 5, 1, 9, 0};
+        int[] ints = new int[]{5,2,3,1};
         Demo912 demo912 = new Demo912();
         demo912.sortArray(ints);
-        System.out.println(Arrays.toString(ints));
+        System.out.println(Arrays.toString(demo912.sortArray(ints)));
     }
 
 }

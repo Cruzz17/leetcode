@@ -26,9 +26,6 @@ public class Demo3 {
         int l = 0;
         int r = 0;
         while(r < s.length()){
-            Character left = s.charAt(l);
-            Character right = s.charAt(r);
-            String temp = s.substring(l,r);
             if(!win.containsKey(s.charAt(r))){
                 win.put(s.charAt(r), 1);
                 r++;
@@ -60,9 +57,32 @@ public class Demo3 {
         return res;
     }
 
+    public int lengthOfLongestSubstring3(String s) {
+        Map<Character,Integer> win = new HashMap<>();
+        int l =0;
+        int r = 0;
+        int res = 0;
+        while(l <= r && r < s.length()) {
+            if(!win.containsKey(s.charAt(r))){
+                win.put(s.charAt(r),1);
+                res = Math.max(res, win.size());
+                r++;
+            }else {
+                while( l < r && s.charAt(l) != s.charAt(r)){
+                    win.remove(s.charAt(l++));
+                }
+                l++;
+                r++;
+            }
+        }
+        return res;
+
+    }
+
 
     public static void main(String[] args) {
         Demo3 demo3 = new Demo3();
-        System.out.println(demo3.lengthOfLongestSubstring("abcaaaabcabcdd"));
+        System.out.println(demo3.lengthOfLongestSubstring3("pwwkew"));
+        System.out.println(demo3.lengthOfLongestSubstring3("bbbb"));
     }
 }

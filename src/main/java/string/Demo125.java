@@ -7,23 +7,22 @@ package string;
  */
 public class Demo125 {
     public boolean isPalindrome(String s) {
-        int l = 0;
-        int r = s.length() - 1;
-        s = s.toLowerCase();
-        StringBuilder stringBuilder = new StringBuilder();
-
-        for (int i = 0; i < s.length(); i++) {
-            char c = s.charAt(i);
-            if(('0' <= c && c <= '9')||('a'<= c && c <= 'z')){
-                stringBuilder.append(c);
+        StringBuilder sb = new StringBuilder();
+        for(int i = 0;i<s.length(); i++) {
+            Character c = s.charAt(i);
+            if(Character.isLetterOrDigit(c)) {
+                sb.append(c);
             }
         }
-        while (l < r) {
-            if(stringBuilder.charAt(l) != stringBuilder.charAt(r)) {
+        String str = sb.toString().toLowerCase();
+        int left = 0;
+        int right = str.length() - 1;
+        while (left < right) {
+            if(str.charAt(left) != str.charAt(right)) {
                 return false;
             }
-            l++;
-            r--;
+            left++;
+            right--;
         }
         return true;
     }

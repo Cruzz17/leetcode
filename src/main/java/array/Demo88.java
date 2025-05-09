@@ -1,6 +1,8 @@
 package array;
 
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * @Author: {USER}
@@ -9,47 +11,42 @@ import java.util.Arrays;
  */
 public class Demo88 {
     public void merge(int[] nums1, int m, int[] nums2, int n) {
-
-        if (m == 0) {
-            System.arraycopy(nums2, 0, nums1, 0, nums1.length);
+        if (nums1 == null || nums2 == null) {
             return;
         }
-        int l1 = 0;
-        int l2 = 0;
-        int index1 = 0;
-        while (index1 < m && l2 < n) {
-            if (nums1[l1] <= nums2[l2]) {
-                l1++;
-                index1++;
-            } else {
-                removeOneIndex(nums1, l1);
-                nums1[l1] = nums2[l2];
-                l2++;
-                l1++;
-            }
+        if (m == 0) {
+            if (n >= 0) System.arraycopy(nums2, 0, nums1, 0, n);
+            return;
         }
+        if (n == 0) {
+            return;
+        }
+        int i = 0;
 
-        if ( l2 < n) {
-            for (int i = l1 ; i < nums1.length; i++) {
-                if(l2 == n) break;
-                nums1[i] = nums2[l2++];
-            }
-        }
+
     }
 
-    public void removeOneIndex(int[] nums, int index) {
-        for (int i = nums.length - 1; i > index ; i--) {
-            nums[i] = nums[i-1];
+    public int removeDuplicates(int[] nums) {
+        int index = 0;
+        int tail = 0;
+        Set<Integer> set = new HashSet<>();
+        while(tail < nums.length) {
+            if(!set.contains(nums[tail])){
+                nums[index] = nums[tail];
+                set.add(nums[tail]);
+            }else{
+                tail++;
+            }
         }
+        return set.size();
     }
 
     public static void main(String[] args) {
         Demo88 demo88 = new Demo88();
         // 1,2,3,4,5,6,0
 
-        int[] nums1 = new int[]{0};
-        int[] nums2 = new int[]{1};
-        demo88.merge(nums1,0,nums2,1);
-        System.out.println(Arrays.toString(nums1));
+        int[] nums1 = new int[]{1, 2, 3, 0, 0, 0};
+        int[] nums2 = new int[]{ 3, 5, 6};
+        demo88.merge(nums1, 3, nums2, 3);
     }
 }

@@ -11,32 +11,32 @@ public class Demo32 {
 
     /**
      * ())()()()()()()
-     * 遇到右括号就出栈，遇到左括号就进栈
+     * 遇到右括号就出栈，遇到左括号就进栈，这种不行，遇到非连续的会有bug
+     *
      *
      * @param s
      * @return
      */
     public int longestValidParentheses(String s) {
-        Stack<Integer> stack = new Stack<>();
-        String leftSign = "(";
-        int index = 0;
+        Character l ='(';
+        Character r = ')';
+        int left = 0;
+        int right = 0;
         int res = 0;
-        stack.push(-1);
-        while (index < s.length()) {
-            String temp = String.valueOf(s.charAt(index));
-            if (temp.equals(leftSign)) {
-                stack.push(index);
-            } else {
-                stack.pop();
-                if (stack.isEmpty()) {
-                    stack.push(index);
-                } else {
-                    res = Math.max(res, index - stack.peek());
+        Stack<Integer> stack = new Stack();
+        for(int i = 0; i< s.length(); i++) {
+            if(s.charAt(i) == l) {
+                stack.push(i);
+
+            }else {
+                if(!stack.isEmpty()){
+                    stack.pop();
+                    res = Math.max(res, i - stack.peek());
                 }
             }
-            index++;
         }
-        return res;
+
+        return res ;
     }
 
     /**
@@ -47,34 +47,38 @@ public class Demo32 {
      * @return
      */
     public int longestValidParentheses2(String s) {
-        int res = 0;
+        Character l ='(';
+        Character r = ')';
         int left = 0;
         int right = 0;
-        for (int i = 0; i < s.length(); i++) {
 
-            if (String.valueOf(s.charAt(i)).equals("(")) {
+        int res = 0;
+        for (int i = 0; i < s.length(); i++) {
+            if(s.charAt(i)==(l)) {
                 left++;
-            } else {
+            }else {
                 right++;
             }
-            if (left == right) {
+            if(left - right == 0) {
                 res = Math.max(res, left * 2);
-            } else if (right > left) {
-                left = 0;
+            }else if(left - right < 0) {
+                left =0;
                 right = 0;
             }
         }
+
         left = 0;
         right = 0;
-        for (int i = s.length() - 1; i > 0; i--) {
-            if (String.valueOf(s.charAt(i)).equals("(")) {
-                left++;
-            } else {
+
+        for(int i = s.length() - 1; i >=0; i--) {
+            if(s.charAt(i)==(r)){
                 right++;
+            }else {
+                left++;
             }
-            if (left == right) {
-                res = Math.max(res, left * 2);
-            } else if (left > right) {
+            if(right - left ==0) {
+                res = Math.max(res, right * 2);
+            }else if(right - left < 0) {
                 left = 0;
                 right = 0;
             }

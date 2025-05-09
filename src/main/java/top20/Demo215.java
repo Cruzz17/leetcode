@@ -20,17 +20,15 @@ public class Demo215 {
     // 如何自己手写一个大根堆的优先队列
 
 
-
-
     public int findKthLargest(int[] nums, int k) {
         PriorityQueue<Integer> queue = new PriorityQueue<>();
         for (int i = 0; i < nums.length; i++) {
-            if(queue.size() < k){
+            if (queue.size() < k) {
                 queue.add(nums[i]);
-            }else {
+            } else {
                 // 如果当前元素大于堆顶元素，就把堆顶元素弹出，把当前元素加入
                 // 如果当前元素小于堆顶元素，就不用管，大根堆的特性，堆顶元素最大，所以不用管，poll方法的作用是弹出堆顶元素
-                if(queue.peek() < nums[i]){
+                if (queue.peek() < nums[i]) {
                     queue.poll();
                     queue.add(nums[i]);
                 }
@@ -38,52 +36,54 @@ public class Demo215 {
         }
         return queue.peek();
     }
+
     //  4 3 2 5 9 1 0
     //
     //  5 3 2 9 4 1 0
-    public int quickSort(int[] nums, int left, int right, int k){
-        int index = partition(left, right, nums);
-        if(index == k ){
-            return nums[index];
-        }else {
-            return index < k ? quickSort(nums, index + 1, right, k) :
-                    quickSort(nums, left, index - 1, k);
-        }
+    public int findKthLargest2(int[] nums, int k) {
+        return quickSort(nums, 0, nums.length - 1, k);
     }
 
-    public int partition(int left, int right, int[] nums) {
-        int ran = random.nextInt(right - left + 1) + left;
-        swap(nums, ran, left);
-        int pivot = nums[left];
-        int lt = left;
-        for (int i = left + 1; i <= right ; i++) {
-            if(nums[i] < pivot){
-                lt++;
-                swap(nums, i, lt);
+    public int quickSort(int[] nums, int l, int r, int k) {
+        if (l <= r) {
+            int index = pivot(nums, l, r);
+            int cur = nums.length - k;
+            if (index == cur) return nums[index];
+            else {
+                if (index > cur) {
+                    return quickSort(nums, l, index - 1, k);
+                } else {
+                    return quickSort(nums, index + 1, r, k);
+                }
             }
         }
-        swap(nums, left, lt);
-        return lt;
+        return -1;
     }
 
-    public String print(int[] nums ){
-        StringBuffer s = new StringBuffer();
-        for (int i:
-             nums) {
-            s.append(i).append(" ");
+        public int pivot ( int[] nums, int l, int r){
+            int index = nums[l];
+            int left = l + 1;
+            int right = r;
+            while (left <= right) {
+                while (left <= right && nums[left] <= index) left++;
+                while (left <= right && nums[right] > index) right--;
+                if (left < right) {
+                    swap(nums, left, right);
+                }
+            }
+            swap(nums, l, right);
+            return right;
         }
-        return s.toString();
-    }
 
-    public void swap(int[] nums, int i, int j) {
-        int temp = nums[j];
-        nums[j] = nums[i];
-        nums[i] = temp;
-    }
+        public void swap ( int[] nums, int l, int r){
+            int temp = nums[l];
+            nums[l] = nums[r];
+            nums[r] = temp;
+        }
 
-    public static void main(String[] args) {
-        int[] nums = new int[]{4, 3, 2, 5, 1, 9, 0};
-        Demo215 demo215 = new Demo215();
-        demo215.findKthLargest(nums, 2);
+        public static void main (String[]args){
+            int[] nums = new int[]{2,1};
+            Demo215 demo215 = new Demo215();
+            System.out.println(demo215.findKthLargest2(nums, 2));
+        }
     }
-}

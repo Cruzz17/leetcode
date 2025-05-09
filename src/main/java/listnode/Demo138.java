@@ -30,12 +30,12 @@ public class Demo138 {
             map.put(cur, new Node(cur.val));
             cur = cur.next;
         }
-        cur = head;
-        while(cur != null) {
-            Node temp = map.get(cur);
-            temp.next = map.get(cur.next);
-            temp.random = map.get(cur.random);
-            cur = cur.next;
+        Node index = head;
+        while(index != null) {
+            Node node = map.get(index);
+            node.next = map.get(index.next);
+            node.random = map.get(index.random);
+            index = index.next;
         }
         return map.get(head);
     }
